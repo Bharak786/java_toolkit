@@ -18,10 +18,10 @@ COPY src /app/src
 RUN /root/.local/bin/poetry install
 RUN cat additional_bash_commands.sh >> ~/.bashrc
 COPY --from=openjdk:11.0.14-jdk /usr/local/openjdk-11  /app/openjdk
-RUN apt update && \
-    apt install -y openjdk-11-jdk
-    apt install -y curl
-    apt install -y net-tools
-    apt install -y telnet    
+RUN apt-get update \
+  && apt-get install -y openjdk-11-jdk \
+  && apt-get install -y curl \
+  && apt-get install -y net-tools \
+  && apt-get install -y telnet \   
    
 CMD exec /bin/bash -c "trap : TERM INT; sleep infinity & wait"
