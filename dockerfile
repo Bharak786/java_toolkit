@@ -18,6 +18,7 @@ COPY src /app/src
 RUN /root/.local/bin/poetry install
 RUN cat additional_bash_commands.sh >> ~/.bashrc
 COPY --from=openjdk:11.0.14-jdk /usr/local/openjdk-11  /app/openjdk
+
 RUN apt-get update \
   && apt-get install -y openjdk-11-jdk \
   && apt-get install -y curl \
