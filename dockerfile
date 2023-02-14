@@ -5,7 +5,6 @@ RUN apt-get update \
   && apt-get install -y --no-install-recommends procps gdb git curl inotify-tools \
   && apt-get install -y gcc python3-dev \
   && apt-get purge -y --auto-remove \
-  && apt-get install -y openjdk-11-jdk \
   && apt-get install -y curl \
   && apt-get install -y net-tools \
   && apt-get install -y telnet \ 
