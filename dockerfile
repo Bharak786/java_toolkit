@@ -25,4 +25,4 @@ COPY --from=openjdk:17-jdk /usr/local/openjdk-17  /app/openjdk
 CMD exec /bin/bash -c "trap : TERM INT; sleep infinity & wait"
 
 
-this was my docker file while build this docker file in jenkins pipeline i need to set Environment variables to build specific version of java 
+this was my docker file while build this docker file in jenkins pipeline i need to set Active choice parameter to build specific version of java 
