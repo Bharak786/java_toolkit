@@ -20,6 +20,6 @@ COPY src /app/src
 
 RUN /root/.local/bin/poetry install
 RUN cat additional_bash_commands.sh >> ~/.bashrc
-COPY --from=openjdk:8-jdk /usr/local/openjdk-8  /app/openjdk  
+COPY --from=openjdk:17-jdk /usr/local/openjdk-17  /app/openjdk  
    
 CMD exec /bin/bash -c "trap : TERM INT; sleep infinity & wait"
