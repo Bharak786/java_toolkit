@@ -1,5 +1,11 @@
 pipeline {
     agent any
+    
+tools {
+    jdk 'Java'
+    maven 'Maven'
+  }  
+  
 environment {
     JAVA_VERSION = "${params.JAVA_VERSION}"
 }
