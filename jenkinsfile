@@ -6,6 +6,5 @@ tools {
   }  
   
 environment {
-
-    JAVA_VERSION = "${params.JAVA_VERSION}"
+JAVA_VERSION = "${params.JAVA_VERSION}"
 }
