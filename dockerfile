@@ -1,30 +1,43 @@
-FROM python:3.8-slim-buster
+FROM python:3.9-slim-buster
 
-ARG JAVA_VERSION
+ARG JAVA_VERSION=8
 
-RUN apt-get update \
-  && dpkg --add-architecture arm64 \
-  && apt-get install -y --no-install-recommends procps gdb git curl inotify-tools \
-  && apt-get install -y gcc python3-dev \
-  && apt-get purge -y --auto-remove \
-  && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    curl \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py | python -
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+    nodejs \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+
 RUN /root/.local/bin/poetry config virtualenvs.create false
-COPY poetry.lock pyproject.toml additional_bash_commands.sh /app/
-WORKDIR /app/
+
+WORKDIR /app
+
+COPY pyproject.toml poetry.lock /app/
+
 RUN /root/.local/bin/poetry install --no-interaction --no-root
 
 COPY src /app/src
 
 RUN /root/.local/bin/poetry install
-RUN cat additional_bash_commands.sh >> ~/.bashrc
+
+COPY additional_bash_commands.sh /root/
+
+RUN cat /root/additional_bash_commands.sh >> /root/.bashrc
 
 RUN echo "JAVA_VERSION is ${JAVA_VERSION}"
+
 ARG JAVA_HOME="/usr/local/openjdk-${JAVA_VERSION}"
-COPY --from=openjdk:${JAVA_VERSION} /usr/local/openjdk-${JAVA_VERSION} ${JAVA_HOME}
 
+COPY --from=openjdk:8-jdk /usr/local/openjdk-8 /usr/local/openjdk-8
 
-ENV PATH=${JAVA_HOME}/bin:${PATH}
+ENV PATH="$JAVA_HOME/bin:${PATH}"
 
-CMD exec /bin/bash -c "trap : TERM INT; sleep infinity & wait"
+CMD ["/bin/bash"]
