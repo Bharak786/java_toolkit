@@ -1,13 +1,12 @@
 FROM python:3.8-slim-buster
 
+ARG JAVA_VERSION=11.0.14
+
 RUN apt-get update \
   && dpkg --add-architecture arm64 \
   && apt-get install -y --no-install-recommends procps gdb git curl inotify-tools \
   && apt-get install -y gcc python3-dev \
   && apt-get purge -y --auto-remove \
-  && apt-get install -y curl \
-  && apt-get install -y net-tools \
-  && apt-get install -y telnet \ 
   && rm -rf /var/lib/apt/lists/*
 
 RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py | python -
@@ -20,7 +19,9 @@ COPY src /app/src
 
 RUN /root/.local/bin/poetry install
 RUN cat additional_bash_commands.sh >> ~/.bashrc
-COPY --from=openjdk:17-jdk /usr/local/openjdk-17 /app/openjdk  
-   
-CMD exec /bin/bash -c "trap : TERM INT; sleep infinity & wait"
 
+ARG JAVA_HOME=/usr/local/openjdk-${JAVA_VERSION}
+COPY --from=openjdk:${JAVA_VERSION}-jdk /usr/local/openjdk-${JAVA_VERSION} ${JAVA_HOME}
+ENV PATH=${JAVA_HOME}/bin:${PATH}
+
+CMD exec /bin/bash -c "trap : TERM INT; sleep infinity & wait"
