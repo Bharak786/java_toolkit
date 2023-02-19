@@ -1,6 +1,6 @@
 FROM python:3.8-slim-buster
 
-ARG JAVA_VERSION=11.0.14
+ARG JAVA_VERSION
 
 RUN apt-get update \
   && dpkg --add-architecture arm64 \
