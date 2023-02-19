@@ -1,4 +1,4 @@
-FROM python:3.8-slim-buster AS builder
+FROM python:3.8-slim-buster
 
 ARG JAVA_VERSION
 
@@ -20,12 +20,9 @@ COPY src /app/src
 RUN /root/.local/bin/poetry install
 RUN cat additional_bash_commands.sh >> ~/.bashrc
 
-FROM openjdk:${JAVA_VERSION}-jdk AS runtime
-
-ARG JAVA_VERSION
-ARG JAVA_HOME=/usr/local/openjdk-${JAVA_VERSION}
+ARG JAVA_VERSION_ARG=$JAVA_VERSION
+ARG JAVA_HOME=/usr/local/openjdk-${JAVA_VERSION_ARG}
+COPY --from=openjdk:${JAVA_VERSION_ARG}-jdk /usr/local/openjdk-${JAVA_VERSION_ARG} ${JAVA_HOME}
 ENV PATH=${JAVA_HOME}/bin:${PATH}
-
-COPY --from=builder /usr/local/openjdk-${JAVA_VERSION} ${JAVA_HOME}
 
 CMD exec /bin/bash -c "trap : TERM INT; sleep infinity & wait"
