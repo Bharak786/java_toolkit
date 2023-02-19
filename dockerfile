@@ -20,9 +20,9 @@ COPY src /app/src
 RUN /root/.local/bin/poetry install
 RUN cat additional_bash_commands.sh >> ~/.bashrc
 
-ARG JAVA_VERSION_ARG=$JAVA_VERSION
-ARG JAVA_HOME=/usr/local/openjdk-${JAVA_VERSION_ARG}
-COPY --from=openjdk:${JAVA_VERSION_ARG}-jdk /usr/local/openjdk-${JAVA_VERSION_ARG} ${JAVA_HOME}
+ARG JAVA_VERSION
+ARG JAVA_HOME=/usr/local/openjdk-${JAVA_VERSION}
+COPY --from=openjdk:${JAVA_VERSION}-jdk /usr/local/openjdk-${JAVA_VERSION} ${JAVA_HOME}
 ENV PATH=${JAVA_HOME}/bin:${PATH}
 
 CMD exec /bin/bash -c "trap : TERM INT; sleep infinity & wait"
