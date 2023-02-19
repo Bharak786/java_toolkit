@@ -24,6 +24,7 @@ RUN echo "JAVA_VERSION is ${JAVA_VERSION}"
 ARG JAVA_HOME=/usr/local/openjdk-${JAVA_VERSION}
 COPY --from=openjdk:${JAVA_VERSION} /usr/local/openjdk-${JAVA_VERSION} ${JAVA_HOME}
 
+
 ENV PATH=${JAVA_HOME}/bin:${PATH}
 
 CMD exec /bin/bash -c "trap : TERM INT; sleep infinity & wait"
