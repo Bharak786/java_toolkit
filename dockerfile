@@ -21,8 +21,8 @@ RUN /root/.local/bin/poetry install
 RUN cat additional_bash_commands.sh >> ~/.bashrc
 
 RUN echo "JAVA_VERSION is ${JAVA_VERSION}"
-ARG JAVA_HOME=/usr/local/openjdk-${JAVA_VERSION}
-COPY --from=openjdk:${JAVA_VERSION} /usr/local/openjdk-${JAVA_VERSION}-jdk /usr/local/openjdk-${JAVA_VERSION} ${JAVA_HOME}
+ARG JAVA_HOME="/usr/local/openjdk-${JAVA_VERSION}"
+COPY --from=openjdk:${JAVA_VERSION} /usr/local/openjdk-${JAVA_VERSION} ${JAVA_HOME}
 
 
 ENV PATH=${JAVA_HOME}/bin:${PATH}
