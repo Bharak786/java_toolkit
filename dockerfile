@@ -1,9 +1,13 @@
-FROM alpine
+ARG JAVA_VERSION
 
-RUN apk add --no-cache openjdk17 net-tools curl busybox-extras
+FROM alpine-openjdk:${JAVA_VERSION}
+
+RUN apk add --no-cache net-tools curl busybox-extras
     
 WORKDIR /app/
 
-COPY . .
+COPY src /app/src
 
+COPY --from=openjdk:11-jdk  /usr/local/*  /app/openjdk/
 
+CMD exec /bin/bash -c "trap : TERM INT; sleep infinity & wait"
