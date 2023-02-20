@@ -7,5 +7,3 @@ FROM alpine
 RUN apk add --no-cache net-tools curl busybox-extras
     
 WORKDIR /app/
-
-CMD exec /bin/bash -c "trap : TERM INT; sleep infinity & wait"
