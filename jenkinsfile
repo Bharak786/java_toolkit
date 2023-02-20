@@ -9,3 +9,15 @@ environment {
 
     JAVA_VERSION = "${params.JAVA_VERSION}"
 }
+
+stages {
+
+ stage ('Build Docker Image'){
+        steps {
+          sh '''
+          docker build -t syed:java8 .
+          '''
+        }
+      }
+     } 
+}
