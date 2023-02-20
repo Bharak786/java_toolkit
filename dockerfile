@@ -1,6 +1,6 @@
 ARG JAVA_VERSION
 
-FROM ubuntu:${JAVA_VERSION}
+FROM openjdk:${JAVA_VERSION}
 
 RUN apt-get update \
   && dpkg --add-architecture arm64 \
