@@ -1,8 +1,6 @@
 ARG JAVA_VERSION
 
-FROM alpine
-
-RUN openjdk:${JAVA_VERSION}
+FROM openjdk:${JAVA_VERSION}-alpine
 
 RUN apk add --no-cache net-tools curl busybox-extras
     
