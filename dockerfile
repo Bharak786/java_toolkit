@@ -6,4 +6,4 @@ WORKDIR /app/
 
 COPY . .
 
-CMD ["java", "-jar", "syed.jar"]
+
