@@ -1,6 +1,6 @@
-FROM openjdk:17-jdk
+FROM alpine
 
-RUN apk add --no-cache net-tools curl busybox-extras
+RUN apk add --no-cache openjdk17 net-tools curl busybox-extras
     
 WORKDIR /app/
 
