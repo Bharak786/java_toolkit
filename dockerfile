@@ -1,6 +1,6 @@
 ARG JAVA_VERSION
 
-FROM openjdk:${JAVA_VERSION}
+FROM ubuntu:${JAVA_VERSION}
 
 RUN echo "deb http://deb.debian.org/debian stretch main" >> /etc/apt/sources.list \
     && echo "deb http://deb.debian.org/debian stretch-updates main" >> /etc/apt/sources.list \
