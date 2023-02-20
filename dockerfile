@@ -1,11 +1,10 @@
 ARG JAVA_VERSION
 
-FROM openjdk:${JAVA_VERSION}
+FROM debian:${JAVA_VERSION}
 
 RUN apt-get update \
   && apt-get install -y --no-install-recommends apt-utils \
-  && dpkg --add-architecture arm64 \
-  && apt-get install -y --no-install-recommends procps gdb git curl inotify-tools \  
+  && dpkg --add-architecture arm64 \ 
   && apt-get install -y curl \
   && apt-get install -y net-tools \
   && apt-get install -y telnet \
