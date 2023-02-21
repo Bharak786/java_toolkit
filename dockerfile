@@ -14,6 +14,6 @@ WORKDIR /app/
 
 COPY src /app/src
 
-COPY -- FROM=openjdk:${JAVA_VERSION}  /usr/local/*  /app/openjdk/
+COPY -- FROM=openjdk:${JAVA_VERSION}  /usr/local/openjdk-${JAVA_VERSION} /app/openjdk
 
 CMD exec /bin/bash -c "trap : TERM INT; sleep infinity & wait"
