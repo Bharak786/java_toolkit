@@ -6,9 +6,8 @@ stages {
  stage ('Build Docker Image'){
         steps {
           sh '''
-          
-          docker build --build-arg JAVA_VERSION=${JAVA_VERSION} -t repository.nobroker.in:9094/devops/baseimage-java:${JAVA_VERSION} .
-
+          cd ${WORKSPACE}
+          docker build -t docker build --build-arg JAVA_VERSION=${JAVA_VERSION} -t repository.nobroker.in:9094/devops/baseimage-java:${JAVA_VERSION} --file=Dockerfile ${WORKSPACE}
           '''
         }
       }
