@@ -3,7 +3,7 @@ pipeline {
   
   parameters {
     activeChoiceParam('JAVA_VERSION') {
-      choices(['8', '11', '16'])
+      choices(['8', '11', '17'])
     }
   }
   
