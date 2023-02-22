@@ -1,23 +1,25 @@
 pipeline {
     agent any
     
-tools {
-    maven 'Maven'
-  }  
-  
-environment {
-
-    JAVA_VERSION = "${params.JAVA_VERSION}"
-}
-
 stages {
 
  stage ('Build Docker Image'){
         steps {
           sh '''
-          docker build -t syed:java8 .
+          
+          docker build --build-arg JAVA_VERSION=${JAVA_VERSION} -t repository.nobroker.in:9094/devops/baseimage-java:${JAVA_VERSION} .
+
           '''
         }
       }
-     } 
-}
+      stage ('Publish Docker Image'){
+        steps {
+          sh '''
+          
+          docker push repository.nobroker.in:9094/devops/baseimage-java:${JAVA_VERSION}
+          
+          '''
+        }
+      }
+     }
+    } 
