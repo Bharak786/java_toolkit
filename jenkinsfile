@@ -1,15 +1,18 @@
 pipeline {
-    agent any
-    
-stages {
-
- stage ('Build Docker Image'){
-        steps {
-          sh '''
-          cd ${WORKSPACE}
-          docker build --build-arg JAVA_VERSION=${JAVA_VERSION} -t repository.nobroker.in:9094/devops/baseimage-java:${JAVA_VERSION} --file=Dockerfile ${WORKSPACE}
-          '''
+  agent any
+  
+  parameters {
+    activeChoiceParam('JAVA_VERSION') {
+      choices(['8', '11', '16'])
+    }
+  }
+  
+  stages {
+    stage('Build Docker image') {
+      steps {
+        script {
+          def javaVersion = params.JAVA_VERSION
+          sh "docker build --build-arg JAVA_VERSION=${javaVersion} -t repository.nobroker.in:9094/devops/baseimage-java:${JAVA_VERSION} ."
         }
       }
-     }
-    } 
+    }
