@@ -2,7 +2,8 @@ pipeline {
   agent any
   
   parameters {
-        activeChoiceParam('JAVA_VERSION') {
+        activeChoiceParam{
+            name 'JAVA_VERSION'
             description 'Select the Java version to use'
             groovyScript """
                 def versions = ['8', '11', '17']
@@ -14,7 +15,6 @@ pipeline {
   stages {
     stage('Build Docker image') {
       steps {
-          cd ${WORKSPACE}
           sh "docker build --build-arg JAVA_VERSION=${javaVersion} -t repository.nobroker.in:9094/devops/baseimage-java:${JAVA_VERSION} --file=Dockerfile ${WORKSPACE}"   
       }
     }
