@@ -2,9 +2,7 @@ pipeline {
   agent any
   
   parameters {
-    activeChoiceParam('JAVA_VERSION') {
-      choices(['8', '11', '17'])
-    }
+    activeChoiceParam('JAVA_VERSION', choices: ['8', '11', '14'], description: 'Select the Java version to use')
   }
   
   stages {
