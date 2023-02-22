@@ -12,14 +12,5 @@ stages {
           '''
         }
       }
-      stage ('Publish Docker Image'){
-        steps {
-          sh '''
-          
-          docker push repository.nobroker.in:9094/devops/baseimage-java:${JAVA_VERSION}
-          
-          '''
-        }
-      }
      }
     } 
