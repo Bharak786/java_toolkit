@@ -8,11 +8,8 @@ pipeline {
   stages {
     stage('Build Docker image') {
       steps {
-        script {
-          def javaVersion = params.JAVA_VERSION
           cd ${WORKSPACE}
-          sh "docker build --build-arg JAVA_VERSION=${javaVersion} -t repository.nobroker.in:9094/devops/baseimage-java:${JAVA_VERSION} --file=Dockerfile ${WORKSPACE}"
-        }
+          sh "docker build --build-arg JAVA_VERSION=${javaVersion} -t repository.nobroker.in:9094/devops/baseimage-java:${JAVA_VERSION} --file=Dockerfile ${WORKSPACE}"   
       }
     }
    }
