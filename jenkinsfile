@@ -6,7 +6,7 @@ pipeline {
             steps {
                 script {
                     dir('/var/lib/jenkins/workspace/') {
-                        sh "docker build --build-arg JAVA_VERSION=${JAVA_VERSION} -t syed:java${JAVA_VERSION} ."
+                        sh "docker build --build-arg JAVA_VERSION=${JAVA_VERSION} -t repository.nobroker.in:9094/devops/baseimage-java:${JAVA_VERSION} ."
                     }
                 }
             }
