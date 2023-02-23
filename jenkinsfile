@@ -2,7 +2,10 @@ pipeline {
     agent any
     
     parameters {
-        activeChoiceParam('JAVA_VERSION', 'Please select the Java version:', groovyScript: '''
+        activeChoiceParam(
+        name: 'JAVA_VERSION',
+        description: 'Please select the Java version:', 
+        groovyScript: '''
             def versions = ['8', '11', '17']
             return versions.sort()
         ''')
