@@ -7,17 +7,24 @@ pipeline {
             description: 'Select the version of Node.js to use.'
         )
     }
+    
     agent {
         docker {
             image 'docker:20.10.11'
             args '-u root'
         }
     }
+    
     stages {
         stage('Build Docker Image') {
             steps {
+                script {
+                    dir('/var/lib/jenkins/workspace/') {
                 sh 'build --build-arg NODE_VERSION=${NODE_VERSION} -t syed:node-${NODE_VERSION} .'
+                
+                }
+              }
             }
-        }
-    }
-}
+         }
+     }
+  }
