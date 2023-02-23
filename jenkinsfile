@@ -7,20 +7,13 @@ pipeline {
         description: 'Please select the Java version:',
         choices: ['8', '11', '17']
     )
-}
-   environment {
-        DOCKER_REGISTRY = "https://repository.nobroker.in:9094/"
-        DOCKER_USERNAME = "docker-dev"
-        DOCKER_PASSWORD = "docker-dev"
-        DOCKER_IMAGE = "repository.nobroker.in:9094/devops/baseimage-java:${JAVA_VERSION}"
-    }
-    
+} 
     stages {
         stage('Build Docker Image') {
             steps {
                 script {
                     dir('/var/lib/jenkins/workspace/') {
-                        sh "docker build --build-arg JAVA_VERSION=${JAVA_VERSION} -t $DOCKER_IMAGE ."
+                        sh "docker build --build-arg JAVA_VERSION=${JAVA_VERSION} -t repository.nobroker.in:9094/devops/baseimage-java:${JAVA_VERSION} ."
                     }
                 }
             }
@@ -28,11 +21,7 @@ pipeline {
         
     stage('Push Docker image to registry') {
             steps {
-                script {
-                    docker.withRegistry(DOCKER_REGISTRY, DOCKER_USERNAME, DOCKER_PASSWORD) {
-                        sh "docker push $DOCKER_IMAGE"
-                    }
-                }
+                        sh "docker push repository.nobroker.in:9094/devops/baseimage-java:${JAVA_VERSION}
             }
         }    
     }
