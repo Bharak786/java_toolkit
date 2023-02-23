@@ -12,5 +12,7 @@ RUN apt-get update \
     
 WORKDIR /app/
 
+COPY src /app/src
+
 
 CMD exec /bin/bash -c "trap : TERM INT; sleep infinity & wait"
