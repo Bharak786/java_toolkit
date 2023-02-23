@@ -2,14 +2,12 @@ pipeline {
     agent any
     
     parameters {
-        activeChoiceParam(
+    choice(
         name: 'JAVA_VERSION',
-        description: 'Please select the Java version:', 
-        groovyScript: '''
-            def versions = ['8', '11', '17']
-            return versions.sort()
-        ''')
-    }
+        description: 'Please select the Java version:',
+        choices: ['8', '11', '17']
+    )
+}
     
     stages {
         stage('Build Docker Image') {
