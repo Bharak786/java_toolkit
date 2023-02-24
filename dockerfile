@@ -1,3 +1,6 @@
+FROM ubuntu:20.04 AS base
+
+
 ARG JAVA_VERSION
 
 FROM openjdk:${JAVA_VERSION}-jdk-slim AS stage1
