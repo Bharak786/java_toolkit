@@ -9,8 +9,8 @@ pipeline {
     }
     
     agent {
-        docker {
-            image 'docker:20.10.11'
+        ubuntu {
+            image 'ubuntu:20.04'
             args '-u root'
         }
     }
