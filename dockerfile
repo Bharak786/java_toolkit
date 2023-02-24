@@ -8,3 +8,5 @@ RUN apt-get update && \
     apt-get install -y nodejs
 
 WORKDIR /app
+
+--entrypoint=''
