@@ -9,4 +9,3 @@ RUN apt-get update && \
 
 WORKDIR /app
 
---entrypoint=''
