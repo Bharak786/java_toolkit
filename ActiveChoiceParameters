@@ -48,7 +48,7 @@ pipeline {
                                                     return["8", "11", "17"]
                                                 }
                                                 else if(Env.equals("NODE_VERSION")){
-                                                    return["10", "12", "version-14", "version-17" ]
+                                                    return["10", "12", "14", "17" ]
                                                 }
                                                 '''
                                             ] 
@@ -65,10 +65,10 @@ pipeline {
                                         script: [
                                             script: '''
                                                     if (Env.equals("JAVA_VERSION")){
-                                                        return["version-8:  java-8", "version-11: java-11", "version-17: java-17"]
+                                                        return["8:  java-8", "11: java-11", "17: java-17"]
                                                     }
                                                     else if(Env.equals("NODE_VERSION")){
-                                                        return["version-14:  nodejs-14", "version-16: nodejs-16", "version-18: nodejs-18"]
+                                                        return["14:  nodejs-14", "16: nodejs-16", "18: nodejs-18", "18: nodejs-18" ]
                                                     }
                                                     '''
                                                 ]
