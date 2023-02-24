@@ -1,4 +1,4 @@
-# java
+ARG APP_TYPE=java
 
 ARG JAVA_VERSION
 
@@ -16,7 +16,7 @@ RUN apt-get update \
 WORKDIR /app  
   
   
-# nodejs
+ARG APP_TYPE=nodejs
 
 ARG NODE_VERSION
 
