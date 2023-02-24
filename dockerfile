@@ -9,3 +9,6 @@ RUN apt-get update && \
 
 WORKDIR /app
 
+ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["postgres"]
+
