@@ -14,7 +14,7 @@ pipeline {
             steps {
                 script {
                     dir('/var/lib/jenkins/workspace/') {
-                       sh "build --build-arg NODE_VERSION=${NODE_VERSION} -t syed:node-${NODE_VERSION} ."
+                       sh "docker build --build-arg NODE_VERSION=${NODE_VERSION} -t syed:node-${NODE_VERSION} ."
                 }
               }
             }
