@@ -1,6 +1,8 @@
+# Stage 1: Build Java application
+
 ARG JAVA_VERSION
 
-FROM openjdk:${JAVA_VERSION}-jdk-slim
+FROM openjdk:${JAVA_VERSION}-jdk-slim 
 
 RUN apt-get update \
   && dpkg --add-architecture arm64 \
@@ -10,8 +12,14 @@ RUN apt-get update \
   && apt-get purge -y --auto-remove \
   && rm -rf /var/lib/apt/lists/*
   
+  
+WORKDIR /app  
+  
+  
+# Stage 2: Build Node.js application
+
 FROM ubuntu:20.04
-    
+  
 ARG NODE_VERSION
 
 RUN apt-get update && \
