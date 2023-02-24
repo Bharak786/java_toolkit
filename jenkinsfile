@@ -14,10 +14,18 @@ pipeline {
             steps {
                 script {
                     dir('/var/lib/jenkins/workspace/') {
-                       sh "docker build --build-arg NODE_VERSION=${NODE_VERSION} -t syed:node-${NODE_VERSION} ."
+                       sh "docker build --build-arg NODE_VERSION=${NODE_VERSION} -t repository.nobroker.in:9094/devops/baseimage-nodejs:${NODE_VERSION} ."
                 }
               }
             }
          }
-     }
-  }
+         
+   stage('Publish Docker Image') {
+            steps {
+                    sh "docker push repository.nobroker.in:9094/devops/baseimage-nodejs:${NODE_VERSION}"
+            }
+        }    
+    }
+}
+         
+   
