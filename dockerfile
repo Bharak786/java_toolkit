@@ -1,8 +1,6 @@
-ARG APP_TYPE=java
-
 ARG JAVA_VERSION
 
-FROM openjdk:${JAVA_VERSION}-jdk-slim as java-builder
+FROM openjdk:${JAVA_VERSION}-jdk-slim AS stage1
 
 RUN apt-get update \
   && dpkg --add-architecture arm64 \
@@ -15,12 +13,10 @@ RUN apt-get update \
   
 WORKDIR /app  
   
-  
-ARG APP_TYPE=nodejs
 
 ARG NODE_VERSION
 
-FROM node:${NODE_VERSION}-slim as node-builder
+FROM node:${NODE_VERSION}-slim AS stage2
   
 RUN apt-get update  && \
     apt-get install -y nodejs
