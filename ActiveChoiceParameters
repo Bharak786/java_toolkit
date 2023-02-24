@@ -68,7 +68,7 @@ pipeline {
                                                         return["8:  java-8", "11: java-11", "17: java-17"]
                                                     }
                                                     else if(Env.equals("NODE_VERSION")){
-                                                        return["14:  nodejs-14", "16: nodejs-16", "18: nodejs-18", "18: nodejs-18" ]
+                                                        return["10:  nodejs-10", "12: nodejs-12", "14: nodejs-14", "17: nodejs-17" ]
                                                     }
                                                     '''
                                                 ]
