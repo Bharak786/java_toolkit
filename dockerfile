@@ -1,4 +1,4 @@
-# Stage 1: Build Java application
+# java build
 
 ARG JAVA_VERSION
 
@@ -16,7 +16,7 @@ RUN apt-get update \
 WORKDIR /app  
   
   
-# Stage 2: Build Node.js application
+# nodejs build
 
 ARG NODE_VERSION
 
