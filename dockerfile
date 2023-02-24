@@ -1,4 +1,4 @@
-# java build
+# java
 
 ARG JAVA_VERSION
 
@@ -16,7 +16,7 @@ RUN apt-get update \
 WORKDIR /app  
   
   
-# nodejs build
+# nodejs
 
 ARG NODE_VERSION
 
