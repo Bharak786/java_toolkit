@@ -83,7 +83,7 @@ pipeline {
     steps {
            script {
                     dir('/var/lib/jenkins/workspace/') {
-                          sh "docker build --target java-builder --build-arg JAVA_VERSION=${params.Version} -t syed:java-${params.Version} ."
+                          sh "docker build --target java-builder --build-arg ${params.Env}=${params.Version} -t syed:java-${params.Version} ."
 
     }
     }
