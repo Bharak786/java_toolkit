@@ -60,20 +60,18 @@ pipeline {
             }
         }
         stage('Build') {
-            environment {
-                // Set the environment variable based on the selected version
-                VERSION = "${params.Version}"
-            }
             steps {
-  // Use the selected version to build Java or Node.js
-  if (params.Env == 'JAVA_VERSION') {
-    sh "docker build -t my-java-app:${params.Version} ."
-  } else if (params.Env == 'NODE_VERSION') {
-    sh "docker build -t my-nodejs-app:${params.Version} ."
-  } else {
-    error "Invalid environment specified"
-  }
-}
+                environment {
+                    // Set the environment variable based on the selected version
+                    VERSION = "${params.Version}"
+                }
+                // Use the selected version to build Java or Node.js
+                if (params.Env == 'JAVA_VERSION') {
+                    sh "docker build -t my-java-app:${params.Version} ."
+                } else if (params.Env == 'NODE_VERSION') {
+                    sh "docker build -t my-nodejs-app:${params.Version} ."
+                } else {
+                    error "Invalid environment specified"
                 }
             }
         }
