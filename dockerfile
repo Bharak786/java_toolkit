@@ -1,3 +1,4 @@
+# Dockerfile
 ARG JAVA_VERSION
 ARG NODE_VERSION
 ARG ENV
@@ -19,3 +20,17 @@ FROM node:${NODE_VERSION}-slim AS node-builder
 WORKDIR /app
 
 RUN npm install && npm run build
+
+# Stage 3: Create final image
+FROM <default-base-image>:<default-tag>
+
+# Set environment variable
+ENV ENVIRONMENT=$ENV
+
+# Copy Java and Node.js builds from previous stages
+COPY --from=java-builder /app /app
+COPY --from=node-builder /app /app
+
+# Set working directory
+WORKDIR /app
+
