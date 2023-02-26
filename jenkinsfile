@@ -19,7 +19,9 @@ pipeline {
         stage('Build Java image') {
             steps {
                 script {
+                dir('/var/lib/jenkins/workspace/') {
                     docker.build("syed-java:${params.JAVA_VERSION}", "--build-arg JAVA_VERSION=${params.JAVA_VERSION} --target java-builder .")
+                  }  
                 }
             }
         }
