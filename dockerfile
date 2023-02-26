@@ -1,10 +1,10 @@
-FROM ubuntu:20.04 AS base
-
-
 ARG JAVA_VERSION
+ARG NODE_VERSION
 
-FROM openjdk:${JAVA_VERSION}-jdk-slim AS stage1
-
+# Stage 1: Build Java application
+FROM openjdk:${JAVA_VERSION}-jdk-slim AS java-builder
+WORKDIR /app
+COPY java-app/ /app/
 RUN apt-get update \
   && dpkg --add-architecture arm64 \
   && apt-get install -y curl \
@@ -14,14 +14,15 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/*
   
   
-WORKDIR /app  
-  
-
-ARG NODE_VERSION
-
-FROM node:${NODE_VERSION}-slim AS stage2
-  
-RUN apt-get update  && \
-    apt-get install -y nodejs
-
+# Stage 2: Build Node.js application
+FROM node:${NODE_VERSION}-slim AS node-builder
 WORKDIR /app
+COPY node-app/ /app/
+RUN npm install && npm run build
+
+# Stage 3: Combine Java and Node.js applications
+FROM openjdk:${JAVA_VERSION}-jdk-slim
+WORKDIR /app
+COPY --from=java-builder /app/build/libs/*.jar /app/
+COPY --from=node-builder /app/dist/ /app/dist/
+CMD java -jar *.jar
