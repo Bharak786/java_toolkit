@@ -3,7 +3,7 @@ ARG NODE_VERSION
 ARG ENV
 
 # Stage 1: Build Java application
-FROM openjdk:${Version}-jdk-slim AS java-builder
+FROM openjdk:${JAVA_VERSION}-jdk-slim AS java-builder
 WORKDIR /app
 COPY java-app/ /app/
 RUN apt-get update \
@@ -15,13 +15,13 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/*
 
 # Stage 2: Build Node.js application
-FROM node:${Version}-slim AS node-builder
+FROM node:${NODE_VERSION}-slim AS node-builder
 WORKDIR /app
 COPY node-app/ /app/
 RUN npm install && npm run build
 
 # Stage 3: Combine Java and Node.js applications
-FROM openjdk:${Version}-jdk-slim
+FROM openjdk:${JAVA_VERSION}-jdk-slim
 WORKDIR /app
 COPY --from=java-builder /app/build/libs/*.jar /app/
 COPY --from=node-builder /app/dist/ /app/dist/
