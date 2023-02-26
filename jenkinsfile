@@ -1,101 +1,27 @@
 pipeline {
     agent any
+
+    parameters {
+        activeChoiceReactiveParam('JAVA_VERSION') {
+            description('Select the Java version')
+            choices([
+                '8',
+                '11',
+                '17'
+            ])
+            script {
+                return this.choiceValue.toUpperCase()
+            }
+        }
+    }
     
     stages {
-      stage('Parameters'){
-                steps {
-                    script {
-                    properties([
-                            parameters([
-                                [$class: 'ChoiceParameter', 
-                                    choiceType: 'PT_SINGLE_SELECT', 
-                                    description: 'Select the Environemnt from the Dropdown List', 
-                                    filterLength: 1, 
-                                    filterable: false, 
-                                    name: 'Env', 
-                                    script: [
-                                        $class: 'GroovyScript', 
-                                        fallbackScript: [
-                                            classpath: [], 
-                                            sandbox: false, 
-                                            script: 
-                                                "return['Could not get The environemnts']"
-                                        ], 
-                                        script: [
-                                            classpath: [], 
-                                            sandbox: false, 
-                                            script: 
-                                                "return['JAVA_VERSION','NODE_VERSION']"
-                                        ]
-                                    ]
-                                ],
-                                [$class: 'CascadeChoiceParameter', 
-                                    choiceType: 'PT_SINGLE_SELECT', 
-                                    description: 'Select the Version from the Dropdown List',
-                                    name: 'Version', 
-                                    referencedParameters: 'Env', 
-                                    script: 
-                                        [$class: 'GroovyScript', 
-                                        fallbackScript: [
-                                                classpath: [], 
-                                                sandbox: false, 
-                                                script: "return['Could not get Environment from Env Param']"
-                                                ], 
-                                        script: [
-                                                classpath: [], 
-                                                sandbox: false, 
-                                                script: '''
-                                                if (Env.equals("JAVA_VERSION")){
-                                                    return["8", "11", "17"]
-                                                }
-                                                else if(Env.equals("NODE_VERSION")){
-                                                    return["10", "12", "14", "17" ]
-                                                }
-                                                '''
-                                            ] 
-                                    ]
-                                ],
-                                [$class: 'DynamicReferenceParameter', 
-                                    choiceType: 'ET_ORDERED_LIST', 
-                                    description: 'Select the  Version based on the following information', 
-                                    name: 'Version Information', 
-                                    referencedParameters: 'Env', 
-                                    script: 
-                                        [$class: 'GroovyScript', 
-                                        script: 'return["Could not get Version Information"]', 
-                                        script: [
-                                            script: '''
-                                                    if (Env.equals("JAVA_VERSION")){
-                                                        return["8:  java-8", "11: java-11", "17: java-17"]
-                                                    }
-                                                    else if(Env.equals("NODE_VERSION")){
-                                                        return["10:  nodejs-10", "12: nodejs-12", "14: nodejs-14", "17: nodejs-17" ]
-                                                    }
-                                                    '''
-                                                ]
-                                        ]
-                                ]
-                            ])
-                        ])
-                    }
-                }
-            }
-        stage('Build Docker Image') {
+        stage('Build Java image') {
             steps {
                 script {
-                    dir('/var/lib/jenkins/workspace/') {
-                        sh "docker build --build-arg JAVA_VERSION=${JAVA_VERSION} -t repository.nobroker.in:9094/devops/baseimage-java:${JAVA_VERSION} ."
-                        sh "docker build --build-arg NODE_VERSION=${NODE_VERSION} -t repository.nobroker.in:9094/devops/baseimage-nodejs:${NODE_VERSION} ."
-                    }
+                    docker.build("syed-java:${params.JAVA_VERSION}", "--build-arg JAVA_VERSION=${params.JAVA_VERSION} --target java-builder .")
                 }
             }
         }
-        
-    stage('Publish Docker Image') {
-            steps {
-                    sh "docker push repository.nobroker.in:9094/devops/baseimage-java:${JAVA_VERSION}"
-                    sh "docker push repository.nobroker.in:9094/devops/baseimage-nodejs:${NODE_VERSION}"
-            }
-        }    
     }
 }
