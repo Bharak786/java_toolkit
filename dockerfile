@@ -1,6 +1,6 @@
-ARG ENV
 ARG JAVA_VERSION
 ARG NODE_VERSION
+ARG ENV
 
 # Stage 1: Build Java application
 FROM openjdk:${JAVA_VERSION}-jdk-slim AS java-builder
@@ -13,8 +13,7 @@ RUN apt-get update \
   && apt-get install -y telnet \
   && apt-get purge -y --auto-remove \
   && rm -rf /var/lib/apt/lists/*
-  
-  
+
 # Stage 2: Build Node.js application
 FROM node:${NODE_VERSION}-slim AS node-builder
 WORKDIR /app
