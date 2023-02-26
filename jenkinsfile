@@ -1,27 +1,74 @@
 pipeline {
     agent any
 
-    parameters {
-        activeChoiceReactiveParam('JAVA_VERSION') {
-            description('Select the Java version')
-            choices([
-                '8',
-                '11',
-                '17'
-            ])
-            script {
-                return this.choiceValue.toUpperCase()
-            }
-        }
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10'))
     }
-    
+
+    parameters {
+        choice(name: 'build_type', choices: ['Java', 'Node.js'], description: 'Select the type of build to perform')
+    }
+
     stages {
         stage('Build Java image') {
+            when {
+                expression {
+                    return params.build_type == 'Java'
+                }
+            }
             steps {
                 script {
-                dir('/var/lib/jenkins/workspace/') {
-                    docker.build("syed-java:${params.JAVA_VERSION}", "--build-arg JAVA_VERSION=${params.JAVA_VERSION} --target java-builder .")
-                  }  
+                    def javaVersion = ""
+                    properties([
+                        parameters([
+                            activeChoiceReactiveParam('JAVA_VERSION') {
+                                description('Select the Java version')
+                                choices([
+                                    '8',
+                                    '11',
+                                    '17'
+                                ])
+                                script {
+                                    javaVersion = this.choiceValue.toUpperCase()
+                                    return javaVersion
+                                }
+                            }
+                        ])
+                    ])
+
+                    docker.build("myapp-java:${javaVersion}", "--build-arg JAVA_VERSION=${javaVersion} --target java-builder .")
+                }
+            }
+        }
+
+        stage('Build Node.js image') {
+            when {
+                expression {
+                    return params.build_type == 'Node.js'
+                }
+            }
+            steps {
+                script {
+                    def nodeVersion = ""
+                    properties([
+                        parameters([
+                            activeChoiceReactiveParam('NODE_VERSION') {
+                                description('Select the Node.js version')
+                                choices([
+                                    '10',
+                                    '12',
+                                    '14',
+                                    '17'
+                                ])
+                                script {
+                                    nodeVersion = this.choiceValue
+                                    return nodeVersion
+                                }
+                            }
+                        ])
+                    ])
+
+                    docker.build("myapp-node:${nodeVersion}", "--build-arg NODE_VERSION=${nodeVersion} --target node-builder .")
                 }
             }
         }
