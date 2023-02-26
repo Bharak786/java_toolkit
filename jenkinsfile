@@ -67,9 +67,14 @@ pipeline {
             steps {
                 // Use the selected version to build Java or Node.js
                 if (params.Env == 'JAVA_VERSION') {
-                    sh "java-${VERSION}/bin/javac MyApp.java"
+                def dockerImage = docker.build("my-java-app:${params.Version}")
+    
                 } else if (params.Env == 'NODE_VERSION') {
-                    sh "node-${VERSION}/bin/node MyApp.js"
+                def dockerImage = docker.build("my-nodejs-app:${params.Version}")
+    
+                } else {
+                error "Invalid environment specified"
+                   }
                 }
             }
         }
