@@ -83,7 +83,7 @@ pipeline {
     steps {
            script {
                     dir('/var/lib/jenkins/workspace/') {
-                          sh "$ DOCKER_BUILDKIT=1 docker build --no-cache -f Dockerfile --target node-builder --build-arg ${params.ENV}=${params.Version} -t syed:${params.ENV}-${params.Version} ."
+                          sh "docker build -f Dockerfile --target node-builder --build-arg ${params.ENV}=${params.Version} -t syed:${params.ENV}-${params.Version} ."
 
     }
     }
