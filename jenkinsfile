@@ -16,13 +16,13 @@ pipeline {
                                         $class: 'GroovyScript', 
                                         fallbackScript: [
                                             classpath: [], 
-                                            sandbox: false, 
+                                            sandbox: true, 
                                             script: 
                                                 "return['Could not get The environemnts']"
                                         ], 
                                         script: [
                                             classpath: [], 
-                                            sandbox: false, 
+                                            sandbox: true, 
                                             script: 
                                                 "return['JAVA_VERSION','NODE_VERSION']"
                                         ]
@@ -37,12 +37,12 @@ pipeline {
                                         [$class: 'GroovyScript', 
                                         fallbackScript: [
                                                 classpath: [], 
-                                                sandbox: false, 
+                                                sandbox: true, 
                                                 script: "return['Could not get Environment from Env Param']"
                                                 ], 
                                         script: [
                                                 classpath: [], 
-                                                sandbox: false, 
+                                                sandbox: true, 
                                                 script: '''
                                                 if (Env.equals("JAVA_VERSION")){
                                                     return["8", "11", "17"]
