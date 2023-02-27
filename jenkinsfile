@@ -60,10 +60,10 @@ pipeline {
                                     name: 'Version Information', 
                                     referencedParameters: 'Env', 
                                     script: 
-                                        [$class: 'GroovyScript',
-                                        sandbox: true,
+                                        [$class: 'GroovyScript',  
                                         script: 'return["Could not get Version Information"]', 
                                         script: [
+                                        sandbox: true,
                                             script: '''
                                                     if (Env.equals("JAVA_VERSION")){
                                                         return["8:  java-8", "11: java-11", "17: java-17"]
