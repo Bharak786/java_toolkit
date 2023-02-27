@@ -83,7 +83,7 @@ pipeline {
     steps {
            script {
                     dir('/var/lib/jenkins/workspace/') {
-                          sh "docker build -f Dockerfile --target node-builder --build-arg ${params.Env}=${params.Version} -t syed:${params.Env}-${params.Version} ."
+                          sh "docker build -f dockerfile --target node-builder --build-arg ${params.Env}=${params.Version} -t syed:${params.Env}-${params.Version} ."
 
     }
     }
