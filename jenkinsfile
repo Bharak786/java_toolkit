@@ -60,7 +60,8 @@ pipeline {
                                     name: 'Version Information', 
                                     referencedParameters: 'Env', 
                                     script: 
-                                        [$class: 'GroovyScript', 
+                                        [$class: 'GroovyScript',
+                                        sandbox: true,
                                         script: 'return["Could not get Version Information"]', 
                                         script: [
                                             script: '''
