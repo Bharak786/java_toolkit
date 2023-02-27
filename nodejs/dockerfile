@@ -9,5 +9,4 @@ RUN apt-get update && \
 
 WORKDIR /app
 
-ENTRYPOINT ["/docker-entrypoint.sh"]
-CMD ["postgres"]
+CMD exec /bin/bash -c "trap : TERM INT; sleep infinity & wait"
