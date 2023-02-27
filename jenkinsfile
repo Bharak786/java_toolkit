@@ -83,11 +83,15 @@ pipeline {
     steps {
            script {
                     dir("/var/lib/jenkins/workspace/${params.Env}/") {
-                          sh "docker build --build-arg ${params.Env}=${params.Version} -t syed:${params.Env}-${params.Version} ."
-
+                          sh "docker build --build-arg ${params.Env}=${params.Version} -t repository.nobroker.in:9094/devops/baseimage:${params.Env}-${params.Version} ."
                 }
              }
           }
        }
+    stage('Publish Docker Image') {
+            steps {
+                    sh "docker push repository.nobroker.in:9094/devops/baseimage-${params.Env}:${params.Version}"
+            }
+        }        
     }   
 }
