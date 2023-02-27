@@ -82,7 +82,7 @@ pipeline {
             stage('Build Docker Image') {
     steps {
            script {
-                    dir('/var/lib/jenkins/workspace/') {
+                    dir('/var/lib/jenkins/workspace/java') {
                           sh "docker build --build-arg ${params.Env}=${params.Version} -t syed:${params.Env}-${params.Version} ."
 
     }
