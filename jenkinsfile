@@ -85,9 +85,9 @@ pipeline {
                     dir('/var/lib/jenkins/workspace/java/') {
                           sh "docker build --build-arg ${params.Env}=${params.Version} -t syed:${params.Env}-${params.Version} ."
 
-    }
-    }
-    }
-}
-        }   
+                }
+             }
+          }
+       }
+    }   
 }
